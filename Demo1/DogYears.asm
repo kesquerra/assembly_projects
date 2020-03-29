@@ -38,6 +38,7 @@ main PROC
 	mov		edx, OFFSET userName
 	mov		ecx, 32
 	call	ReadString
+
 ;Get user age
 	mov		edx, OFFSET prompt_2
 	call	WriteString
@@ -68,8 +69,7 @@ main PROC
 
 ;Exit program
 	exit	; exit to operating system
-main ENDP
 
-; (insert additional procedures here)
+main ENDP
 
 END main
