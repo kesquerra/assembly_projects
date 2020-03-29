@@ -1,10 +1,10 @@
 TITLE Program Template     (template.asm)
 
 ; Author: Kyle Esquerra
-; Last Modified: 
+; Last Modified:
 ; OSU email address: esquerrk@oregonstate.edu
 ; Course number/section: C400_S2020
-; Project Number: 1               Due Date: 4/12/20
+; Project Number:                 Due Date:
 ; Description:
 
 INCLUDE Irvine32.inc
