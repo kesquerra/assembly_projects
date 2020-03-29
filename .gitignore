@@ -1,3 +1,9 @@
+*.db
+*.tlog
+*.user
+*.obj
+*.txt
+*.pdb
 Template/StructExample.asm
 Template/Release/Project.vcxproj.FileListAbsolute.txt
 Template/Release/Project.tlog/unsuccessfulbuild
