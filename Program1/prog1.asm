@@ -75,7 +75,7 @@ main PROC
 	call	CrLf
 	call	CrLf
 
-
+	;loop if user wants to continue
 	.while continue == 1
 	;get the data
 		;get numA
@@ -100,13 +100,13 @@ main PROC
 	;validate inputs
 		mov		eax, numB					;set compare object
 
-		;A is less than B
+		;A is less than B, exit program
 		.if numA < eax
 		mov		edx, OFFSET invalidNum
 		call	WriteString
 		exit
 
-		;B is less than C
+		;B is less than C, exit program
 		.elseif eax < numC
 		mov		edx, OFFSET invalidNum
 		call	WriteString
@@ -334,8 +334,7 @@ main PROC
 		call	ReadInt
 		mov		continue, eax
 
-
-	.endw
+	.endw									;end loop
 
 ;say goodbye
 	mov		edx, OFFSET goodbye
