@@ -1,4 +1,4 @@
-Microsoft (R) Macro Assembler Version 14.24.28316.0	    03/29/20 20:41:56
+Microsoft (R) Macro Assembler Version 14.24.28316.0	    04/10/20 12:31:29
 -Sum and Differences of 3 Numbers		(prog1.asm   Page 1 - 1
 
 
@@ -91,18 +91,18 @@ Microsoft (R) Macro Assembler Version 14.24.28316.0	    03/29/20 20:41:56
 	   69 6E 67 20 6F
 	   72 64 65 72 2E
 	   00
- 00000107 00000001		continue		DWORD	1
- 0000010B 45 6E 74 65 72	promptCon		BYTE	"Enter 1 to repeat or any other number to quit: ",0
-	   20 31 20 74 6F
-	   20 72 65 70 65
-	   61 74 20 6F 72
-	   20 61 6E 79 20
-	   6F 74 68 65 72
-	   20 6E 75 6D 62
-	   65 72 20 74 6F
+ 00000107 45 6E 74 65 72	promptCon		BYTE	"Enter 0 to quit or any other integer to continue: ",0
+	   20 30 20 74 6F
 	   20 71 75 69 74
-	   3A 20 00
- 0000013B 2A 2A 45 43 3A	ec1				BYTE	"**EC: Program repeats until user chooses to quit.",0
+	   20 6F 72 20 61
+	   6E 79 20 6F 74
+	   68 65 72 20 69
+	   6E 74 65 67 65
+	   72 20 74 6F 20
+	   63 6F 6E 74 69
+	   6E 75 65 3A 20
+	   00
+ 0000013A 2A 2A 45 43 3A	ec1				BYTE	"**EC: Program repeats until user chooses to quit.",0
 	   20 50 72 6F 67
 	   72 61 6D 20 72
 	   65 70 65 61 74
@@ -112,7 +112,7 @@ Microsoft (R) Macro Assembler Version 14.24.28316.0	    03/29/20 20:41:56
 	   6F 6F 73 65 73
 	   20 74 6F 20 71
 	   75 69 74 2E 00
- 0000016D 2A 2A 45 43 3A	ec2				BYTE	"**EC: Program checks if numbers are in non-descending order.",0
+ 0000016C 2A 2A 45 43 3A	ec2				BYTE	"**EC: Program checks if numbers are in non-descending order.",0
 	   20 50 72 6F 67
 	   72 61 6D 20 63
 	   68 65 63 6B 73
@@ -125,7 +125,7 @@ Microsoft (R) Macro Assembler Version 14.24.28316.0	    03/29/20 20:41:56
 	   69 6E 67 20 6F
 	   72 64 65 72 2E
 	   00
- 000001AA 2A 2A 45 43 3A	ec3				BYTE	"**EC: Program handles negative results and computes B-A, C-A, C-B, C-B-A.",0
+ 000001A9 2A 2A 45 43 3A	ec3				BYTE	"**EC: Program handles negative results and computes B-A, C-A, C-B, C-B-A.",0
 	   20 50 72 6F 67
 	   72 61 6D 20 68
 	   61 6E 64 6C 65
@@ -140,19 +140,6 @@ Microsoft (R) Macro Assembler Version 14.24.28316.0	    03/29/20 20:41:56
 	   2C 20 43 2D 42
 	   2C 20 43 2D 42
 	   2D 41 2E 00
- 000001F4 2A 2A 45 43 3A	ec4				BYTE	"**EC: Program calculates and displays quotients A/B, A/C, B/C.",0
-	   20 50 72 6F 67
-	   72 61 6D 20 63
-	   61 6C 63 75 6C
-	   61 74 65 73 20
-	   61 6E 64 20 64
-	   69 73 70 6C 61
-	   79 73 20 71 75
-	   6F 74 69 65 6E
-	   74 73 20 41 2F
-	   42 2C 20 41 2F
-	   43 2C 20 42 2F
-	   43 2E 00
 
  00000000			.code
  00000000			main PROC
@@ -169,13 +156,13 @@ Microsoft (R) Macro Assembler Version 14.24.28316.0	    03/29/20 20:41:56
  00000019  E8 00000000 E		call	CrLf
 
 					;extra credit 1-3
- 0000001E  BA 0000013B R		mov		edx, OFFSET ec1
+ 0000001E  BA 0000013A R		mov		edx, OFFSET ec1
  00000023  E8 00000000 E		call	WriteString
  00000028  E8 00000000 E		call	CrLf
- 0000002D  BA 0000016D R		mov		edx, OFFSET ec2
+ 0000002D  BA 0000016C R		mov		edx, OFFSET ec2
  00000032  E8 00000000 E		call	WriteString
  00000037  E8 00000000 E		call	CrLf
- 0000003C  BA 000001AA R		mov		edx, OFFSET ec3
+ 0000003C  BA 000001A9 R		mov		edx, OFFSET ec3
  00000041  E8 00000000 E		call	WriteString
  00000046  E8 00000000 E		call	CrLf
  0000004B  E8 00000000 E		call	CrLf
@@ -185,300 +172,286 @@ Microsoft (R) Macro Assembler Version 14.24.28316.0	    03/29/20 20:41:56
  00000055  E8 00000000 E		call	WriteString
  0000005A  E8 00000000 E		call	CrLf
  0000005F  E8 00000000 E		call	CrLf
-
-
-					.while continue == 1
- 00000064  E9 000003D9	   *	    jmp    @C0001
- 00000069		   *@C0002:
-					;get the data
-						;get numA
- 00000069  BA 00000063 R			mov		edx, OFFSET promptNumA
- 0000006E  E8 00000000 E			call	WriteString
- 00000073  E8 00000000 E			call	ReadInt
- 00000078  A3 00000091 R			mov		numA, eax
-
-						;get numB
- 0000007D  BA 00000072 R			mov		edx, OFFSET promptNumB
- 00000082  E8 00000000 E			call	WriteString
- 00000087  E8 00000000 E			call	ReadInt
- 0000008C  A3 00000095 R			mov		numB, eax
-
-						;get numC
- 00000091  BA 00000082 R			mov		edx, OFFSET promptNumC
- 00000096  E8 00000000 E			call	WriteString
- 0000009B  E8 00000000 E			call	ReadInt
- 000000A0  A3 00000099 R			mov		numC, eax
- 000000A5  E8 00000000 E			call	CrLf
-
-					;validate inputs
- 000000AA  A1 00000095 R			mov		eax, numB					;set compare object
-
-						;A is less than B
-						.if numA < eax
- 000000AF  39 05 00000091 R *	    cmp    numA, eax
- 000000B5  73 13	   *	    jae    @C0003
- 000000B7  BA 000000DE R			mov		edx, OFFSET invalidNum
- 000000BC  E8 00000000 E			call	WriteString
-						exit
- 000000C1  6A 00	   *	    push   +000000000h
- 000000C3  E8 00000000 E   *	    call   ExitProcess
-
-						;B is less than C
-						.elseif eax < numC
- 000000C8  EB 19	   *	    jmp    @C0005
- 000000CA		   *@C0003:
- 000000CA  3B 05 00000099 R *	    cmp    eax, numC
- 000000D0  73 11	   *	    jae    @C0006
- 000000D2  BA 000000DE R			mov		edx, OFFSET invalidNum
- 000000D7  E8 00000000 E			call	WriteString
-						exit
- 000000DC  6A 00	   *	    push   +000000000h
- 000000DE  E8 00000000 E   *	    call   ExitProcess
-
-						.endif
-
-					;calculate the required values
-						;calc A + B
- 000000E3		   *@C0006:
- 000000E3		   *@C0005:
- 000000E3  A1 00000091 R			mov		eax, numA
- 000000E8  03 05 00000095 R			add		eax, numB
- 000000EE  A3 0000009D R			mov		sumAB, eax
-
-						;calc A - B
- 000000F3  A1 00000091 R			mov		eax, numA
- 000000F8  2B 05 00000095 R			sub		eax, numB
- 000000FE  A3 000000AD R			mov		diffAB, eax
-
-						;calc A + C
- 00000103  A1 00000091 R			mov		eax, numA
- 00000108  03 05 00000099 R			add		eax, numC
- 0000010E  A3 000000A1 R			mov		sumAC, eax
-
-						;calc A - C
- 00000113  A1 00000091 R			mov		eax, numA
- 00000118  2B 05 00000099 R			sub		eax, numC
- 0000011E  A3 000000B1 R			mov		diffAC, eax
-
-						;calc B + C
- 00000123  A1 00000095 R			mov		eax, numB
- 00000128  03 05 00000099 R			add		eax, numC
- 0000012E  A3 000000A5 R			mov		sumBC, eax
-
-						;calc B - C
- 00000133  A1 00000095 R			mov		eax, numB
- 00000138  2B 05 00000099 R			sub		eax, numC
- 0000013E  A3 000000B5 R			mov		diffBC, eax
-
-						;calc A + B + C
- 00000143  A1 00000091 R			mov		eax, numA
- 00000148  03 05 00000095 R			add		eax, numB
- 0000014E  03 05 00000099 R			add		eax, numC
- 00000154  A3 000000A9 R			mov		sumABC, eax
-
-						;calc B - A
- 00000159  A1 00000095 R			mov		eax, numB
- 0000015E  2B 05 00000091 R			sub		eax, numA
- 00000164  A3 000000B9 R			mov		diffBA, eax
-
-						;calc C - A
- 00000169  A1 00000099 R			mov		eax, numC
- 0000016E  2B 05 00000091 R			sub		eax, numA
- 00000174  A3 000000BD R			mov		diffCA, eax
-
-						;calc C - B
- 00000179  A1 00000099 R			mov		eax, numC
- 0000017E  2B 05 00000095 R			sub		eax, numB
- 00000184  A3 000000C1 R			mov		diffCB, eax
-
-						;calc C - B - A
- 00000189  A1 00000099 R			mov		eax, numC
- 0000018E  2B 05 00000095 R			sub		eax, numB
- 00000194  2B 05 00000091 R			sub		eax, numA
- 0000019A  A3 000000C5 R			mov		diffCBA, eax
-
-
-
-					;display the results
-						;A + B
- 0000019F  A1 00000091 R			mov		eax, numA
- 000001A4  E8 00000000 E			call	WriteDec
- 000001A9  BA 000000D2 R			mov		edx, OFFSET plus
- 000001AE  E8 00000000 E			call	WriteString
- 000001B3  A1 00000095 R			mov		eax, numB
- 000001B8  E8 00000000 E			call	WriteDec
- 000001BD  BA 000000DA R			mov		edx, OFFSET equals
- 000001C2  E8 00000000 E			call	WriteString
- 000001C7  A1 0000009D R			mov		eax, sumAB
- 000001CC  E8 00000000 E			call	WriteDec
- 000001D1  E8 00000000 E			call	CrLf
-
-						;A - B
- 000001D6  A1 00000091 R			mov		eax, numA
- 000001DB  E8 00000000 E			call	WriteDec
- 000001E0  BA 000000D6 R			mov		edx, OFFSET minus
- 000001E5  E8 00000000 E			call	WriteString
- 000001EA  A1 00000095 R			mov		eax, numB
- 000001EF  E8 00000000 E			call	WriteDec
- 000001F4  BA 000000DA R			mov		edx, OFFSET equals
- 000001F9  E8 00000000 E			call	WriteString
- 000001FE  A1 000000AD R			mov		eax, diffAB
- 00000203  E8 00000000 E			call	WriteDec
- 00000208  E8 00000000 E			call	CrLf
-
-						;A + C
- 0000020D  A1 00000091 R			mov		eax, numA
- 00000212  E8 00000000 E			call	WriteDec
- 00000217  BA 000000D2 R			mov		edx, OFFSET plus
- 0000021C  E8 00000000 E			call	WriteString
- 00000221  A1 00000099 R			mov		eax, numC
- 00000226  E8 00000000 E			call	WriteDec
- 0000022B  BA 000000DA R			mov		edx, OFFSET equals
- 00000230  E8 00000000 E			call	WriteString
- 00000235  A1 000000A1 R			mov		eax, sumAC
- 0000023A  E8 00000000 E			call	WriteDec
- 0000023F  E8 00000000 E			call	CrLf
-
-						;A - C
- 00000244  A1 00000091 R			mov		eax, numA
- 00000249  E8 00000000 E			call	WriteDec
- 0000024E  BA 000000D6 R			mov		edx, OFFSET minus
- 00000253  E8 00000000 E			call	WriteString
- 00000258  A1 00000099 R			mov		eax, numC
- 0000025D  E8 00000000 E			call	WriteDec
- 00000262  BA 000000DA R			mov		edx, OFFSET equals
- 00000267  E8 00000000 E			call	WriteString
- 0000026C  A1 000000B1 R			mov		eax, diffAC
- 00000271  E8 00000000 E			call	WriteDec
- 00000276  E8 00000000 E			call	CrLf
 					
-						;B + C
- 0000027B  A1 00000095 R			mov		eax, numB
- 00000280  E8 00000000 E			call	WriteDec
- 00000285  BA 000000D2 R			mov		edx, OFFSET plus
- 0000028A  E8 00000000 E			call	WriteString
- 0000028F  A1 00000099 R			mov		eax, numC
- 00000294  E8 00000000 E			call	WriteDec
- 00000299  BA 000000DA R			mov		edx, OFFSET equals
- 0000029E  E8 00000000 E			call	WriteString
- 000002A3  A1 000000A5 R			mov		eax, sumBC
- 000002A8  E8 00000000 E			call	WriteDec
- 000002AD  E8 00000000 E			call	CrLf
+					;skip error message
+ 00000064  EB 14			jmp		beg
 
-						;B - C
- 000002B2  A1 00000095 R			mov		eax, numB
- 000002B7  E8 00000000 E			call	WriteDec
- 000002BC  BA 000000D6 R			mov		edx, OFFSET minus
- 000002C1  E8 00000000 E			call	WriteString
- 000002C6  A1 00000099 R			mov		eax, numC
- 000002CB  E8 00000000 E			call	WriteDec
- 000002D0  BA 000000DA R			mov		edx, OFFSET equals
- 000002D5  E8 00000000 E			call	WriteString
- 000002DA  A1 000000B5 R			mov		eax, diffBC
- 000002DF  E8 00000000 E			call	WriteDec
- 000002E4  E8 00000000 E			call	CrLf
+					;error message for invalid descending order
+ 00000066			error:
+ 00000066  BA 000000DE R		mov		edx, OFFSET invalidNum
+ 0000006B  E8 00000000 E		call	WriteString
+ 00000070  E8 00000000 E		call	CrLf
+ 00000075  E8 00000000 E		call	CrLf
 
-						;A + B + C
- 000002E9  A1 00000091 R			mov		eax, numA
- 000002EE  E8 00000000 E			call	WriteDec
- 000002F3  BA 000000D2 R			mov		edx, OFFSET plus
- 000002F8  E8 00000000 E			call	WriteString
- 000002FD  A1 00000095 R			mov		eax, numB
- 00000302  E8 00000000 E			call	WriteDec
- 00000307  BA 000000D2 R			mov		edx, OFFSET plus
- 0000030C  E8 00000000 E			call	WriteString
- 00000311  A1 00000099 R			mov		eax, numC
- 00000316  E8 00000000 E			call	WriteDec
- 0000031B  BA 000000DA R			mov		edx, OFFSET equals
- 00000320  E8 00000000 E			call	WriteString
- 00000325  A1 000000A9 R			mov		eax, sumABC
- 0000032A  E8 00000000 E			call	WriteDec
- 0000032F  E8 00000000 E			call	CrLf
- 00000334  E8 00000000 E			call	CrLf
+				;get the data
+ 0000007A			beg:
+					;get numA
+ 0000007A  BA 00000063 R		mov		edx, OFFSET promptNumA
+ 0000007F  E8 00000000 E		call	WriteString
+ 00000084  E8 00000000 E		call	ReadInt
+ 00000089  A3 00000091 R		mov		numA, eax
 
-						;B - A
- 00000339  A1 00000095 R			mov		eax, numB
- 0000033E  E8 00000000 E			call	WriteDec
- 00000343  BA 000000D6 R			mov		edx, OFFSET minus
- 00000348  E8 00000000 E			call	WriteString
- 0000034D  A1 00000091 R			mov		eax, numA
- 00000352  E8 00000000 E			call	WriteDec
- 00000357  BA 000000DA R			mov		edx, OFFSET equals
- 0000035C  E8 00000000 E			call	WriteString
- 00000361  A1 000000B9 R			mov		eax, diffBA
- 00000366  E8 00000000 E			call	WriteInt
- 0000036B  E8 00000000 E			call	CrLf
+					;get numB
+ 0000008E  BA 00000072 R		mov		edx, OFFSET promptNumB
+ 00000093  E8 00000000 E		call	WriteString
+ 00000098  E8 00000000 E		call	ReadInt
+ 0000009D  A3 00000095 R		mov		numB, eax
 
-						;C - A
- 00000370  A1 00000099 R			mov		eax, numC
- 00000375  E8 00000000 E			call	WriteDec
- 0000037A  BA 000000D6 R			mov		edx, OFFSET minus
- 0000037F  E8 00000000 E			call	WriteString
- 00000384  A1 00000091 R			mov		eax, numA
- 00000389  E8 00000000 E			call	WriteDec
- 0000038E  BA 000000DA R			mov		edx, OFFSET equals
- 00000393  E8 00000000 E			call	WriteString
- 00000398  A1 000000BD R			mov		eax, diffCA
- 0000039D  E8 00000000 E			call	WriteInt
- 000003A2  E8 00000000 E			call	CrLf
+					;get numC
+ 000000A2  BA 00000082 R		mov		edx, OFFSET promptNumC
+ 000000A7  E8 00000000 E		call	WriteString
+ 000000AC  E8 00000000 E		call	ReadInt
+ 000000B1  A3 00000099 R		mov		numC, eax
+ 000000B6  E8 00000000 E		call	CrLf
 
-						;C - B
- 000003A7  A1 00000099 R			mov		eax, numC
- 000003AC  E8 00000000 E			call	WriteDec
- 000003B1  BA 000000D6 R			mov		edx, OFFSET minus
- 000003B6  E8 00000000 E			call	WriteString
- 000003BB  A1 00000095 R			mov		eax, numB
- 000003C0  E8 00000000 E			call	WriteDec
- 000003C5  BA 000000DA R			mov		edx, OFFSET equals
- 000003CA  E8 00000000 E			call	WriteString
- 000003CF  A1 000000C1 R			mov		eax, diffCB
- 000003D4  E8 00000000 E			call	WriteInt
- 000003D9  E8 00000000 E			call	CrLf
-
-						;C - B - A
- 000003DE  A1 00000099 R			mov		eax, numC
- 000003E3  E8 00000000 E			call	WriteDec
- 000003E8  BA 000000D6 R			mov		edx, OFFSET minus
- 000003ED  E8 00000000 E			call	WriteString
- 000003F2  A1 00000095 R			mov		eax, numB
- 000003F7  E8 00000000 E			call	WriteDec
- 000003FC  BA 000000D6 R			mov		edx, OFFSET minus
- 00000401  E8 00000000 E			call	WriteString
- 00000406  A1 00000091 R			mov		eax, numA
- 0000040B  E8 00000000 E			call	WriteDec
- 00000410  BA 000000DA R			mov		edx, OFFSET equals
- 00000415  E8 00000000 E			call	WriteString
- 0000041A  A1 000000C5 R			mov		eax, diffCBA
- 0000041F  E8 00000000 E			call	WriteInt
- 00000424  E8 00000000 E			call	CrLf
- 00000429  E8 00000000 E			call	CrLf
-
-					;ask if user wants to continue
- 0000042E  BA 0000010B R			mov		edx, OFFSET promptCon
- 00000433  E8 00000000 E			call	WriteString
- 00000438  E8 00000000 E			call	ReadInt
- 0000043D  A3 00000107 R			mov		continue, eax
+				;compare values
+					;set comparison value
+ 000000BB  A1 00000095 R		mov		eax, numB
+					;if B is greater than A, error
+ 000000C0  3B 05 00000091 R		cmp		eax, numA
+ 000000C6  7F 9E			jg		error
+					;if B is less than C, error
+ 000000C8  3B 05 00000099 R		cmp		eax, numC
+ 000000CE  7C 96			jl		error
 
 
-					.endw
- 00000442		   *@C0001:
- 00000442  83 3D 00000107 R
-	   01		   *	    cmp    continue, 001h
- 00000449  0F 84 FFFFFC1A  *	    je	@C0002
+				;calculate the required values
+					;calc A + B
+ 000000D0  A1 00000091 R		mov		eax, numA
+ 000000D5  03 05 00000095 R		add		eax, numB
+ 000000DB  A3 0000009D R		mov		sumAB, eax
+
+					;calc A - B
+ 000000E0  A1 00000091 R		mov		eax, numA
+ 000000E5  2B 05 00000095 R		sub		eax, numB
+ 000000EB  A3 000000AD R		mov		diffAB, eax
+
+					;calc A + C
+ 000000F0  A1 00000091 R		mov		eax, numA
+ 000000F5  03 05 00000099 R		add		eax, numC
+ 000000FB  A3 000000A1 R		mov		sumAC, eax
+
+					;calc A - C
+ 00000100  A1 00000091 R		mov		eax, numA
+ 00000105  2B 05 00000099 R		sub		eax, numC
+ 0000010B  A3 000000B1 R		mov		diffAC, eax
+
+					;calc B + C
+ 00000110  A1 00000095 R		mov		eax, numB
+ 00000115  03 05 00000099 R		add		eax, numC
+ 0000011B  A3 000000A5 R		mov		sumBC, eax
+
+					;calc B - C
+ 00000120  A1 00000095 R		mov		eax, numB
+ 00000125  2B 05 00000099 R		sub		eax, numC
+ 0000012B  A3 000000B5 R		mov		diffBC, eax
+
+					;calc A + B + C
+ 00000130  A1 00000091 R		mov		eax, numA
+ 00000135  03 05 00000095 R		add		eax, numB
+ 0000013B  03 05 00000099 R		add		eax, numC
+ 00000141  A3 000000A9 R		mov		sumABC, eax
+
+					;calc B - A
+ 00000146  A1 00000095 R		mov		eax, numB
+ 0000014B  2B 05 00000091 R		sub		eax, numA
+ 00000151  A3 000000B9 R		mov		diffBA, eax
+
+					;calc C - A
+ 00000156  A1 00000099 R		mov		eax, numC
+ 0000015B  2B 05 00000091 R		sub		eax, numA
+ 00000161  A3 000000BD R		mov		diffCA, eax
+
+					;calc C - B
+ 00000166  A1 00000099 R		mov		eax, numC
+ 0000016B  2B 05 00000095 R		sub		eax, numB
+ 00000171  A3 000000C1 R		mov		diffCB, eax
+
+					;calc C - B - A
+ 00000176  A1 00000099 R		mov		eax, numC
+ 0000017B  2B 05 00000095 R		sub		eax, numB
+ 00000181  2B 05 00000091 R		sub		eax, numA
+ 00000187  A3 000000C5 R		mov		diffCBA, eax
+
+
+
+				;display the results
+					;A + B
+ 0000018C  A1 00000091 R		mov		eax, numA
+ 00000191  E8 00000000 E		call	WriteDec
+ 00000196  BA 000000D2 R		mov		edx, OFFSET plus
+ 0000019B  E8 00000000 E		call	WriteString
+ 000001A0  A1 00000095 R		mov		eax, numB
+ 000001A5  E8 00000000 E		call	WriteDec
+ 000001AA  BA 000000DA R		mov		edx, OFFSET equals
+ 000001AF  E8 00000000 E		call	WriteString
+ 000001B4  A1 0000009D R		mov		eax, sumAB
+ 000001B9  E8 00000000 E		call	WriteDec
+ 000001BE  E8 00000000 E		call	CrLf
+
+					;A - B
+ 000001C3  A1 00000091 R		mov		eax, numA
+ 000001C8  E8 00000000 E		call	WriteDec
+ 000001CD  BA 000000D6 R		mov		edx, OFFSET minus
+ 000001D2  E8 00000000 E		call	WriteString
+ 000001D7  A1 00000095 R		mov		eax, numB
+ 000001DC  E8 00000000 E		call	WriteDec
+ 000001E1  BA 000000DA R		mov		edx, OFFSET equals
+ 000001E6  E8 00000000 E		call	WriteString
+ 000001EB  A1 000000AD R		mov		eax, diffAB
+ 000001F0  E8 00000000 E		call	WriteDec
+ 000001F5  E8 00000000 E		call	CrLf
+
+					;A + C
+ 000001FA  A1 00000091 R		mov		eax, numA
+ 000001FF  E8 00000000 E		call	WriteDec
+ 00000204  BA 000000D2 R		mov		edx, OFFSET plus
+ 00000209  E8 00000000 E		call	WriteString
+ 0000020E  A1 00000099 R		mov		eax, numC
+ 00000213  E8 00000000 E		call	WriteDec
+ 00000218  BA 000000DA R		mov		edx, OFFSET equals
+ 0000021D  E8 00000000 E		call	WriteString
+ 00000222  A1 000000A1 R		mov		eax, sumAC
+ 00000227  E8 00000000 E		call	WriteDec
+ 0000022C  E8 00000000 E		call	CrLf
+
+					;A - C
+ 00000231  A1 00000091 R		mov		eax, numA
+ 00000236  E8 00000000 E		call	WriteDec
+ 0000023B  BA 000000D6 R		mov		edx, OFFSET minus
+ 00000240  E8 00000000 E		call	WriteString
+ 00000245  A1 00000099 R		mov		eax, numC
+ 0000024A  E8 00000000 E		call	WriteDec
+ 0000024F  BA 000000DA R		mov		edx, OFFSET equals
+ 00000254  E8 00000000 E		call	WriteString
+ 00000259  A1 000000B1 R		mov		eax, diffAC
+ 0000025E  E8 00000000 E		call	WriteDec
+ 00000263  E8 00000000 E		call	CrLf
+					
+					;B + C
+ 00000268  A1 00000095 R		mov		eax, numB
+ 0000026D  E8 00000000 E		call	WriteDec
+ 00000272  BA 000000D2 R		mov		edx, OFFSET plus
+ 00000277  E8 00000000 E		call	WriteString
+ 0000027C  A1 00000099 R		mov		eax, numC
+ 00000281  E8 00000000 E		call	WriteDec
+ 00000286  BA 000000DA R		mov		edx, OFFSET equals
+ 0000028B  E8 00000000 E		call	WriteString
+ 00000290  A1 000000A5 R		mov		eax, sumBC
+ 00000295  E8 00000000 E		call	WriteDec
+ 0000029A  E8 00000000 E		call	CrLf
+
+					;B - C
+ 0000029F  A1 00000095 R		mov		eax, numB
+ 000002A4  E8 00000000 E		call	WriteDec
+ 000002A9  BA 000000D6 R		mov		edx, OFFSET minus
+ 000002AE  E8 00000000 E		call	WriteString
+ 000002B3  A1 00000099 R		mov		eax, numC
+ 000002B8  E8 00000000 E		call	WriteDec
+ 000002BD  BA 000000DA R		mov		edx, OFFSET equals
+ 000002C2  E8 00000000 E		call	WriteString
+ 000002C7  A1 000000B5 R		mov		eax, diffBC
+ 000002CC  E8 00000000 E		call	WriteDec
+ 000002D1  E8 00000000 E		call	CrLf
+
+					;A + B + C
+ 000002D6  A1 00000091 R		mov		eax, numA
+ 000002DB  E8 00000000 E		call	WriteDec
+ 000002E0  BA 000000D2 R		mov		edx, OFFSET plus
+ 000002E5  E8 00000000 E		call	WriteString
+ 000002EA  A1 00000095 R		mov		eax, numB
+ 000002EF  E8 00000000 E		call	WriteDec
+ 000002F4  BA 000000D2 R		mov		edx, OFFSET plus
+ 000002F9  E8 00000000 E		call	WriteString
+ 000002FE  A1 00000099 R		mov		eax, numC
+ 00000303  E8 00000000 E		call	WriteDec
+ 00000308  BA 000000DA R		mov		edx, OFFSET equals
+ 0000030D  E8 00000000 E		call	WriteString
+ 00000312  A1 000000A9 R		mov		eax, sumABC
+ 00000317  E8 00000000 E		call	WriteDec
+ 0000031C  E8 00000000 E		call	CrLf
+ 00000321  E8 00000000 E		call	CrLf
+
+					;B - A
+ 00000326  A1 00000095 R		mov		eax, numB
+ 0000032B  E8 00000000 E		call	WriteDec
+ 00000330  BA 000000D6 R		mov		edx, OFFSET minus
+ 00000335  E8 00000000 E		call	WriteString
+ 0000033A  A1 00000091 R		mov		eax, numA
+ 0000033F  E8 00000000 E		call	WriteDec
+ 00000344  BA 000000DA R		mov		edx, OFFSET equals
+ 00000349  E8 00000000 E		call	WriteString
+ 0000034E  A1 000000B9 R		mov		eax, diffBA
+ 00000353  E8 00000000 E		call	WriteInt
+ 00000358  E8 00000000 E		call	CrLf
+
+					;C - A
+ 0000035D  A1 00000099 R		mov		eax, numC
+ 00000362  E8 00000000 E		call	WriteDec
+ 00000367  BA 000000D6 R		mov		edx, OFFSET minus
+ 0000036C  E8 00000000 E		call	WriteString
+ 00000371  A1 00000091 R		mov		eax, numA
+ 00000376  E8 00000000 E		call	WriteDec
+ 0000037B  BA 000000DA R		mov		edx, OFFSET equals
+ 00000380  E8 00000000 E		call	WriteString
+ 00000385  A1 000000BD R		mov		eax, diffCA
+ 0000038A  E8 00000000 E		call	WriteInt
+ 0000038F  E8 00000000 E		call	CrLf
+
+					;C - B
+ 00000394  A1 00000099 R		mov		eax, numC
+ 00000399  E8 00000000 E		call	WriteDec
+ 0000039E  BA 000000D6 R		mov		edx, OFFSET minus
+ 000003A3  E8 00000000 E		call	WriteString
+ 000003A8  A1 00000095 R		mov		eax, numB
+ 000003AD  E8 00000000 E		call	WriteDec
+ 000003B2  BA 000000DA R		mov		edx, OFFSET equals
+ 000003B7  E8 00000000 E		call	WriteString
+ 000003BC  A1 000000C1 R		mov		eax, diffCB
+ 000003C1  E8 00000000 E		call	WriteInt
+ 000003C6  E8 00000000 E		call	CrLf
+
+					;C - B - A
+ 000003CB  A1 00000099 R		mov		eax, numC
+ 000003D0  E8 00000000 E		call	WriteDec
+ 000003D5  BA 000000D6 R		mov		edx, OFFSET minus
+ 000003DA  E8 00000000 E		call	WriteString
+ 000003DF  A1 00000095 R		mov		eax, numB
+ 000003E4  E8 00000000 E		call	WriteDec
+ 000003E9  BA 000000D6 R		mov		edx, OFFSET minus
+ 000003EE  E8 00000000 E		call	WriteString
+ 000003F3  A1 00000091 R		mov		eax, numA
+ 000003F8  E8 00000000 E		call	WriteDec
+ 000003FD  BA 000000DA R		mov		edx, OFFSET equals
+ 00000402  E8 00000000 E		call	WriteString
+ 00000407  A1 000000C5 R		mov		eax, diffCBA
+ 0000040C  E8 00000000 E		call	WriteInt
+ 00000411  E8 00000000 E		call	CrLf
+ 00000416  E8 00000000 E		call	CrLf
+
+					;ask user to continue
+ 0000041B  BA 00000107 R		mov		edx, OFFSET promptCon
+ 00000420  E8 00000000 E		call	WriteString
+ 00000425  E8 00000000 E		call	ReadInt
+ 0000042A  83 F8 01			cmp		eax, 1
+ 0000042D  7C 05			jl		endLoop
+ 0000042F  E9 FFFFFC46			jmp		beg
+
 
 				;say goodbye
- 0000044F  BA 000000C9 R		mov		edx, OFFSET goodbye
- 00000454  E8 00000000 E		call	WriteString
- 00000459  E8 00000000 E		call	CrLf
+ 00000434			endLoop:
+ 00000434  BA 000000C9 R		mov		edx, OFFSET goodbye
+ 00000439  E8 00000000 E		call	WriteString
+ 0000043E  E8 00000000 E		call	CrLf
 
 				;exit program
 					exit
- 0000045E  6A 00	   *	    push   +000000000h
- 00000460  E8 00000000 E   *	    call   ExitProcess
- 00000465			main ENDP
+ 00000443  6A 00	   *	    push   +000000000h
+ 00000445  E8 00000000 E   *	    call   ExitProcess
+ 0000044A			main ENDP
 
 				END main
-Microsoft (R) Macro Assembler Version 14.24.28316.0	    03/29/20 20:41:56
+Microsoft (R) Macro Assembler Version 14.24.28316.0	    04/10/20 12:31:29
 -Sum and Differences of 3 Numbers		(prog1.asm   Symbols 2 - 1
 
 
@@ -572,8 +545,8 @@ Segments and Groups:
 
 FLAT . . . . . . . . . . . . . .	GROUP
 STACK  . . . . . . . . . . . . .	32 Bit	 00001000 Para	  Stack	  'STACK'	 
-_DATA  . . . . . . . . . . . . .	32 Bit	 00000233 Para	  Public  'DATA'	
-_TEXT  . . . . . . . . . . . . .	32 Bit	 00000465 Para	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	32 Bit	 000001F3 Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 0000044A Para	  Public  'CODE'	
 
 
 Procedures, parameters, and locals:
@@ -680,7 +653,10 @@ WriteStackFrame  . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External
 WriteString  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 WriteToFile  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 WriteWindowsMsg  . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
-main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000465 Public STDCALL
+main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 0000044A Public STDCALL
+  error  . . . . . . . . . . . .	L Near	 00000066 _TEXT	
+  beg  . . . . . . . . . . . . .	L Near	 0000007A _TEXT	
+  endLoop  . . . . . . . . . . .	L Near	 00000434 _TEXT	
 printf . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
 scanf  . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
 wsprintfA  . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
@@ -903,7 +879,6 @@ authName . . . . . . . . . . . .	Byte	 00000000 _DATA
 black  . . . . . . . . . . . . .	Number	 00000000h   
 blue . . . . . . . . . . . . . .	Number	 00000001h   
 brown  . . . . . . . . . . . . .	Number	 00000006h   
-continue . . . . . . . . . . . .	DWord	 00000107 _DATA	
 cyan . . . . . . . . . . . . . .	Number	 00000003h   
 diffAB . . . . . . . . . . . . .	DWord	 000000AD _DATA	
 diffAC . . . . . . . . . . . . .	DWord	 000000B1 _DATA	
@@ -912,10 +887,9 @@ diffBC . . . . . . . . . . . . .	DWord	 000000B5 _DATA
 diffCA . . . . . . . . . . . . .	DWord	 000000BD _DATA	
 diffCBA  . . . . . . . . . . . .	DWord	 000000C5 _DATA	
 diffCB . . . . . . . . . . . . .	DWord	 000000C1 _DATA	
-ec1  . . . . . . . . . . . . . .	Byte	 0000013B _DATA	
-ec2  . . . . . . . . . . . . . .	Byte	 0000016D _DATA	
-ec3  . . . . . . . . . . . . . .	Byte	 000001AA _DATA	
-ec4  . . . . . . . . . . . . . .	Byte	 000001F4 _DATA	
+ec1  . . . . . . . . . . . . . .	Byte	 0000013A _DATA	
+ec2  . . . . . . . . . . . . . .	Byte	 0000016C _DATA	
+ec3  . . . . . . . . . . . . . .	Byte	 000001A9 _DATA	
 equals . . . . . . . . . . . . .	Byte	 000000DA _DATA	
 exit . . . . . . . . . . . . . .	Text   	 INVOKE ExitProcess,0
 goodbye  . . . . . . . . . . . .	Byte	 000000C9 _DATA	
@@ -936,7 +910,7 @@ numB . . . . . . . . . . . . . .	DWord	 00000095 _DATA
 numC . . . . . . . . . . . . . .	DWord	 00000099 _DATA	
 plus . . . . . . . . . . . . . .	Byte	 000000D2 _DATA	
 progTitle  . . . . . . . . . . .	Byte	 00000016 _DATA	
-promptCon  . . . . . . . . . . .	Byte	 0000010B _DATA	
+promptCon  . . . . . . . . . . .	Byte	 00000107 _DATA	
 promptNumA . . . . . . . . . . .	Byte	 00000063 _DATA	
 promptNumB . . . . . . . . . . .	Byte	 00000072 _DATA	
 promptNumC . . . . . . . . . . .	Byte	 00000082 _DATA	
