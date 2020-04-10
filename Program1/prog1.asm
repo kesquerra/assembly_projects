@@ -1,7 +1,7 @@
 TITLE Sum and Differences of 3 Numbers		(prog1.asm)
 
 ; Author: Kyle Esquerra
-; Last Modified: 03/29/2020
+; Last Modified: 04/10/2020
 ; OSU email address: esquerrk@oregonstate.edu
 ; Course number/section: C400_S2020
 ; Project Number: 1                Due Date: 04/12/2020
@@ -36,12 +36,10 @@ plus			BYTE	' + ',0
 minus			BYTE	' - ',0
 equals			BYTE	' = ',0
 invalidNum		BYTE	"The numbers are not in descending order.",0
-continue		DWORD	1
-promptCon		BYTE	"Enter 1 to repeat or any other number to quit: ",0
+promptCon		BYTE	"Enter 0 to quit or any other integer to continue: ",0
 ec1				BYTE	"**EC: Program repeats until user chooses to quit.",0
 ec2				BYTE	"**EC: Program checks if numbers are in non-descending order.",0
 ec3				BYTE	"**EC: Program handles negative results and computes B-A, C-A, C-B, C-B-A.",0
-ec4				BYTE	"**EC: Program calculates and displays quotients A/B, A/C, B/C.",0
 
 .code
 main PROC
@@ -74,269 +72,274 @@ main PROC
 	call	WriteString
 	call	CrLf
 	call	CrLf
-
-	;loop if user wants to continue
-	.while continue == 1
-	;get the data
-		;get numA
-		mov		edx, OFFSET promptNumA
-		call	WriteString
-		call	ReadInt
-		mov		numA, eax
-
-		;get numB
-		mov		edx, OFFSET promptNumB
-		call	WriteString
-		call	ReadInt
-		mov		numB, eax
-
-		;get numC
-		mov		edx, OFFSET promptNumC
-		call	WriteString
-		call	ReadInt
-		mov		numC, eax
-		call	CrLf
-
-	;validate inputs
-		mov		eax, numB					;set compare object
-
-		;A is less than B, exit program
-		.if numA < eax
-		mov		edx, OFFSET invalidNum
-		call	WriteString
-		exit
-
-		;B is less than C, exit program
-		.elseif eax < numC
-		mov		edx, OFFSET invalidNum
-		call	WriteString
-		exit
-
-		.endif
-
-	;calculate the required values
-		;calc A + B
-		mov		eax, numA
-		add		eax, numB
-		mov		sumAB, eax
-
-		;calc A - B
-		mov		eax, numA
-		sub		eax, numB
-		mov		diffAB, eax
-
-		;calc A + C
-		mov		eax, numA
-		add		eax, numC
-		mov		sumAC, eax
-
-		;calc A - C
-		mov		eax, numA
-		sub		eax, numC
-		mov		diffAC, eax
-
-		;calc B + C
-		mov		eax, numB
-		add		eax, numC
-		mov		sumBC, eax
-
-		;calc B - C
-		mov		eax, numB
-		sub		eax, numC
-		mov		diffBC, eax
-
-		;calc A + B + C
-		mov		eax, numA
-		add		eax, numB
-		add		eax, numC
-		mov		sumABC, eax
-
-		;calc B - A
-		mov		eax, numB
-		sub		eax, numA
-		mov		diffBA, eax
-
-		;calc C - A
-		mov		eax, numC
-		sub		eax, numA
-		mov		diffCA, eax
-
-		;calc C - B
-		mov		eax, numC
-		sub		eax, numB
-		mov		diffCB, eax
-
-		;calc C - B - A
-		mov		eax, numC
-		sub		eax, numB
-		sub		eax, numA
-		mov		diffCBA, eax
-
-
-
-	;display the results
-		;A + B
-		mov		eax, numA
-		call	WriteDec
-		mov		edx, OFFSET plus
-		call	WriteString
-		mov		eax, numB
-		call	WriteDec
-		mov		edx, OFFSET equals
-		call	WriteString
-		mov		eax, sumAB
-		call	WriteDec
-		call	CrLf
-
-		;A - B
-		mov		eax, numA
-		call	WriteDec
-		mov		edx, OFFSET minus
-		call	WriteString
-		mov		eax, numB
-		call	WriteDec
-		mov		edx, OFFSET equals
-		call	WriteString
-		mov		eax, diffAB
-		call	WriteDec
-		call	CrLf
-
-		;A + C
-		mov		eax, numA
-		call	WriteDec
-		mov		edx, OFFSET plus
-		call	WriteString
-		mov		eax, numC
-		call	WriteDec
-		mov		edx, OFFSET equals
-		call	WriteString
-		mov		eax, sumAC
-		call	WriteDec
-		call	CrLf
-
-		;A - C
-		mov		eax, numA
-		call	WriteDec
-		mov		edx, OFFSET minus
-		call	WriteString
-		mov		eax, numC
-		call	WriteDec
-		mov		edx, OFFSET equals
-		call	WriteString
-		mov		eax, diffAC
-		call	WriteDec
-		call	CrLf
 	
-		;B + C
-		mov		eax, numB
-		call	WriteDec
-		mov		edx, OFFSET plus
-		call	WriteString
-		mov		eax, numC
-		call	WriteDec
-		mov		edx, OFFSET equals
-		call	WriteString
-		mov		eax, sumBC
-		call	WriteDec
-		call	CrLf
+	;skip error message
+	jmp		beg
 
-		;B - C
-		mov		eax, numB
-		call	WriteDec
-		mov		edx, OFFSET minus
-		call	WriteString
-		mov		eax, numC
-		call	WriteDec
-		mov		edx, OFFSET equals
-		call	WriteString
-		mov		eax, diffBC
-		call	WriteDec
-		call	CrLf
+	;error message for invalid descending order
+error:
+	mov		edx, OFFSET invalidNum
+	call	WriteString
+	call	CrLf
+	call	CrLf
 
-		;A + B + C
-		mov		eax, numA
-		call	WriteDec
-		mov		edx, OFFSET plus
-		call	WriteString
-		mov		eax, numB
-		call	WriteDec
-		mov		edx, OFFSET plus
-		call	WriteString
-		mov		eax, numC
-		call	WriteDec
-		mov		edx, OFFSET equals
-		call	WriteString
-		mov		eax, sumABC
-		call	WriteDec
-		call	CrLf
-		call	CrLf
+;get the data
+beg:
+	;get numA
+	mov		edx, OFFSET promptNumA
+	call	WriteString
+	call	ReadInt
+	mov		numA, eax
 
-		;B - A
-		mov		eax, numB
-		call	WriteDec
-		mov		edx, OFFSET minus
-		call	WriteString
-		mov		eax, numA
-		call	WriteDec
-		mov		edx, OFFSET equals
-		call	WriteString
-		mov		eax, diffBA
-		call	WriteInt
-		call	CrLf
+	;get numB
+	mov		edx, OFFSET promptNumB
+	call	WriteString
+	call	ReadInt
+	mov		numB, eax
 
-		;C - A
-		mov		eax, numC
-		call	WriteDec
-		mov		edx, OFFSET minus
-		call	WriteString
-		mov		eax, numA
-		call	WriteDec
-		mov		edx, OFFSET equals
-		call	WriteString
-		mov		eax, diffCA
-		call	WriteInt
-		call	CrLf
+	;get numC
+	mov		edx, OFFSET promptNumC
+	call	WriteString
+	call	ReadInt
+	mov		numC, eax
+	call	CrLf
 
-		;C - B
-		mov		eax, numC
-		call	WriteDec
-		mov		edx, OFFSET minus
-		call	WriteString
-		mov		eax, numB
-		call	WriteDec
-		mov		edx, OFFSET equals
-		call	WriteString
-		mov		eax, diffCB
-		call	WriteInt
-		call	CrLf
+;compare values
+	;set comparison value
+	mov		eax, numB
+	;if B is greater than A, error
+	cmp		eax, numA
+	jg		error
+	;if B is less than C, error
+	cmp		eax, numC
+	jl		error
 
-		;C - B - A
-		mov		eax, numC
-		call	WriteDec
-		mov		edx, OFFSET minus
-		call	WriteString
-		mov		eax, numB
-		call	WriteDec
-		mov		edx, OFFSET minus
-		call	WriteString
-		mov		eax, numA
-		call	WriteDec
-		mov		edx, OFFSET equals
-		call	WriteString
-		mov		eax, diffCBA
-		call	WriteInt
-		call	CrLf
-		call	CrLf
 
-	;ask if user wants to continue
-		mov		edx, OFFSET promptCon
-		call	WriteString
-		call	ReadInt
-		mov		continue, eax
+;calculate the required values
+	;calc A + B
+	mov		eax, numA
+	add		eax, numB
+	mov		sumAB, eax
 
-	.endw									;end loop
+	;calc A - B
+	mov		eax, numA
+	sub		eax, numB
+	mov		diffAB, eax
+
+	;calc A + C
+	mov		eax, numA
+	add		eax, numC
+	mov		sumAC, eax
+
+	;calc A - C
+	mov		eax, numA
+	sub		eax, numC
+	mov		diffAC, eax
+
+	;calc B + C
+	mov		eax, numB
+	add		eax, numC
+	mov		sumBC, eax
+
+	;calc B - C
+	mov		eax, numB
+	sub		eax, numC
+	mov		diffBC, eax
+
+	;calc A + B + C
+	mov		eax, numA
+	add		eax, numB
+	add		eax, numC
+	mov		sumABC, eax
+
+	;calc B - A
+	mov		eax, numB
+	sub		eax, numA
+	mov		diffBA, eax
+
+	;calc C - A
+	mov		eax, numC
+	sub		eax, numA
+	mov		diffCA, eax
+
+	;calc C - B
+	mov		eax, numC
+	sub		eax, numB
+	mov		diffCB, eax
+
+	;calc C - B - A
+	mov		eax, numC
+	sub		eax, numB
+	sub		eax, numA
+	mov		diffCBA, eax
+
+
+
+;display the results
+	;A + B
+	mov		eax, numA
+	call	WriteDec
+	mov		edx, OFFSET plus
+	call	WriteString
+	mov		eax, numB
+	call	WriteDec
+	mov		edx, OFFSET equals
+	call	WriteString
+	mov		eax, sumAB
+	call	WriteDec
+	call	CrLf
+
+	;A - B
+	mov		eax, numA
+	call	WriteDec
+	mov		edx, OFFSET minus
+	call	WriteString
+	mov		eax, numB
+	call	WriteDec
+	mov		edx, OFFSET equals
+	call	WriteString
+	mov		eax, diffAB
+	call	WriteDec
+	call	CrLf
+
+	;A + C
+	mov		eax, numA
+	call	WriteDec
+	mov		edx, OFFSET plus
+	call	WriteString
+	mov		eax, numC
+	call	WriteDec
+	mov		edx, OFFSET equals
+	call	WriteString
+	mov		eax, sumAC
+	call	WriteDec
+	call	CrLf
+
+	;A - C
+	mov		eax, numA
+	call	WriteDec
+	mov		edx, OFFSET minus
+	call	WriteString
+	mov		eax, numC
+	call	WriteDec
+	mov		edx, OFFSET equals
+	call	WriteString
+	mov		eax, diffAC
+	call	WriteDec
+	call	CrLf
+	
+	;B + C
+	mov		eax, numB
+	call	WriteDec
+	mov		edx, OFFSET plus
+	call	WriteString
+	mov		eax, numC
+	call	WriteDec
+	mov		edx, OFFSET equals
+	call	WriteString
+	mov		eax, sumBC
+	call	WriteDec
+	call	CrLf
+
+	;B - C
+	mov		eax, numB
+	call	WriteDec
+	mov		edx, OFFSET minus
+	call	WriteString
+	mov		eax, numC
+	call	WriteDec
+	mov		edx, OFFSET equals
+	call	WriteString
+	mov		eax, diffBC
+	call	WriteDec
+	call	CrLf
+
+	;A + B + C
+	mov		eax, numA
+	call	WriteDec
+	mov		edx, OFFSET plus
+	call	WriteString
+	mov		eax, numB
+	call	WriteDec
+	mov		edx, OFFSET plus
+	call	WriteString
+	mov		eax, numC
+	call	WriteDec
+	mov		edx, OFFSET equals
+	call	WriteString
+	mov		eax, sumABC
+	call	WriteDec
+	call	CrLf
+	call	CrLf
+
+	;B - A
+	mov		eax, numB
+	call	WriteDec
+	mov		edx, OFFSET minus
+	call	WriteString
+	mov		eax, numA
+	call	WriteDec
+	mov		edx, OFFSET equals
+	call	WriteString
+	mov		eax, diffBA
+	call	WriteInt
+	call	CrLf
+
+	;C - A
+	mov		eax, numC
+	call	WriteDec
+	mov		edx, OFFSET minus
+	call	WriteString
+	mov		eax, numA
+	call	WriteDec
+	mov		edx, OFFSET equals
+	call	WriteString
+	mov		eax, diffCA
+	call	WriteInt
+	call	CrLf
+
+	;C - B
+	mov		eax, numC
+	call	WriteDec
+	mov		edx, OFFSET minus
+	call	WriteString
+	mov		eax, numB
+	call	WriteDec
+	mov		edx, OFFSET equals
+	call	WriteString
+	mov		eax, diffCB
+	call	WriteInt
+	call	CrLf
+
+	;C - B - A
+	mov		eax, numC
+	call	WriteDec
+	mov		edx, OFFSET minus
+	call	WriteString
+	mov		eax, numB
+	call	WriteDec
+	mov		edx, OFFSET minus
+	call	WriteString
+	mov		eax, numA
+	call	WriteDec
+	mov		edx, OFFSET equals
+	call	WriteString
+	mov		eax, diffCBA
+	call	WriteInt
+	call	CrLf
+	call	CrLf
+
+	;ask user to continue
+	mov		edx, OFFSET promptCon
+	call	WriteString
+	call	ReadInt
+	cmp		eax, 1
+	jl		endLoop
+	jmp		beg
+
 
 ;say goodbye
+endLoop:
 	mov		edx, OFFSET goodbye
 	call	WriteString
 	call	CrLf
