@@ -16,7 +16,8 @@ LOWER_BOUND = 1
 .data
 authName		BYTE	"Author: Kyle Esquerra",0
 progTitle		BYTE	"Title: Composite Numbers",0
-ec				BYTE	"EC Placeholder",0
+ec1				BYTE	"**Check against prime divisors saved from those that failed composite test",0
+ec2				BYTE	"**Align the output columns",0
 instrMsg		BYTE	"Enter the number of composite numbers to display [",0
 ellipses		BYTE	"...",0
 endBracket		BYTE	"]: ",0
@@ -24,9 +25,11 @@ invalidMsg		BYTE	"Number is not in range. Try again.",0
 userNum			DWORD	?
 compCount		DWORD	0
 compNum			DWORD	4
-divisors		DWORD	2, 3, 5, 7, 11, 13, 17, 19
-divCount		DWORD   8
+divisors		DWORD	2, 3, ?, ?, ?, ?, ?, ?, ?, ?
+divCount		DWORD   2
 compBool		WORD	0
+compDivCount	DWORD	?
+numCount		DWORD	0
 
 .code
 main PROC
@@ -50,8 +53,11 @@ displayIntro PROC
 	call	WriteString
 	call	CrLf
 
-	;extra credit message
-	mov		edx, OFFSET ec
+	;extra credit messages
+	mov		edx, OFFSET ec1
+	call	WriteString
+	call	CrLf
+	mov		edx, OFFSET ec2
 	call	WriteString
 	call	CrLf
 
@@ -108,58 +114,131 @@ validate	ENDP
 
 ;check if number in compNum is composite, if true compBool = 1
 isComposite PROC
+	;save registers
 	pushad
-	mov		divCount, 8
+
+	;set current loop counter
+	mov		eax, divCount
+	mov		compDivCount, eax
+
+	;reset ebx
 	mov		ebx, 0
+
+	;put prime array onto stack
 	mov		esi, OFFSET divisors
 
 	divisor:
+		;set up registers
 		mov		eax, compNum
 		mov		edx, 0
+
+		;check if current number is in our prime array
 		mov		ebx, [esi]
 		cmp		ebx, compNum
 		je		compRet
+
+		;divide current number by our prime array
 		cdq
 		div		ebx
+
+		;if no remainder, it is composite, jump to composite
 		cmp		edx, 0
 		jz		compTrue
+
+		;increment stack address for next prime number
 		add		esi, 4
-		dec		divCount
-		cmp		divCount, 0
+
+		;decrement counter for number of primes in our array
+		dec		compDivCount
+
+		;no more primes, current number is prime, jump to prime
+		cmp		compDivCount, 0
 		je		compFalse
+
+		;restart loop to check against next prime
 		jmp		divisor
 
-	compTrue:
+	compTrue:									;is composite
+		;set boolean flag
 		mov		compBool, 1
+		
+		;increment counter for composites
 		inc		compCount
 		jmp		compRet
 
-	compFalse:
+	compFalse:									;is prime
+		;set boolean flag
 		mov		compBool, 0
 
+		;only hold 10 prime numbers
+		cmp		divCount, 10
+		je		compRet
+
+		;increment address for divisor array, store current prime number
+		mov		eax, divCount
+		mov		ecx, 4
+		mul		ecx
+		mov		ebx, compNum
+		mov		[divisors + eax], ebx
+		inc		divCount
+
 	compRet:
+		;return registers
 		popad
 		ret
 
 isComposite ENDP
 
 showComposites PROC
+	;save registers
 	pushad
+
+	;set loop counter
 	mov ecx, userNum
 
-	renameLoop:
+	;loop to find next composite number
+	compLoop:
+		;reset boolean value
 		mov		compBool, 0
+
+		;check if current number is composite
 		mov		eax, compNum
 		call	isComposite
-		inc		compNum
-		cmp		compBool, 0
-		je		renameLoop
 
+		;move to next number
+		inc		compNum
+
+		;if number is prime, restart loop without decrementing ecx
+		cmp		compBool, 0
+		je		compLoop
+
+	;print composite number
 	call	WriteDec
+
+	;print tab
 	mov		al, 9
 	call	WriteChar
-	loop	renameLoop
 
+	;increment number of composites on line
+	inc		numCount
+
+	;if 10 numbers on line, go to newLine
+	cmp		numCount, 10
+	jz		newLine
+
+	;not 10, continue
+	jmp		endLoop
+
+	newLine:
+		;reset counter, write new line
+		mov		numCount, 0
+		call	CrLf
+
+	endLoop:
+		;restart loop, decrement ecx
+		loop	compLoop
+
+	;return registers
 	popad
 	ret
 
