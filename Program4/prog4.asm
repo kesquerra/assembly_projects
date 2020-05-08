@@ -1,11 +1,12 @@
-TITLE Integer Accumulator		(prog3.asm)
+TITLE Composite Numbers	(prog4.asm)
 
 ; Author: Kyle Esquerra
-; Last Modified: 04/28/2020
+; Last Modified: 05/08/2020
 ; OSU email address: esquerrk@oregonstate.edu
 ; Course number/section: C400_S2020
-; Project Number: 3                Due Date: 05/03/2020
-; Description: 
+; Project Number: 4                Due Date: 05/10/2020
+; Description: Program takes a user number within 1 and 400
+;	and prints that many composite numbers to screen
 
 INCLUDE Irvine32.inc
 
@@ -22,6 +23,7 @@ instrMsg		BYTE	"Enter the number of composite numbers to display [",0
 ellipses		BYTE	"...",0
 endBracket		BYTE	"]: ",0
 invalidMsg		BYTE	"Number is not in range. Try again.",0
+farewellMsg		BYTE	"Results certified by Kyle Esquerra. Goodbye.",0
 userNum			DWORD	?
 compCount		DWORD	0
 compNum			DWORD	4
@@ -32,17 +34,37 @@ compDivCount	DWORD	?
 numCount		DWORD	0
 
 .code
+; ------------------------------------------------------------------
 main PROC
+; 
+; Description: Main procedure, calls all subprocedures
+; Receives: N/A
+; Returns: N/A
+; Preconditions: N/A
+; Registers changed: N/A
+;
+; ------------------------------------------------------------------
 
 	call	displayIntro
 	call	getUserData
 	call	showComposites
-
+	call	farewell
 	exit
 	
 main ENDP
 
+; ------------------------------------------------------------------
 displayIntro PROC
+; 
+; Description: Displays information for program, including author, 
+;	program title, and extra credit messages
+; Receives: N/A
+; Returns: N/A
+; Preconditions:  N/A
+; Registers changed: N/A
+;
+; ------------------------------------------------------------------
+	pushad
 	;author name
 	mov		edx, OFFSET authName
 	call	WriteString
@@ -62,10 +84,22 @@ displayIntro PROC
 	call	CrLf
 
 	;return
+	popad
 	ret
 displayIntro ENDP
 
+; ------------------------------------------------------------------
 getUserData PROC
+; 
+; Description: Displays instructions for number entry, then gets an
+;	integer from the user to store in userNum
+; Receives: integer between LOWER_BOUND and UPPER_BOUND
+; Returns: userNum
+; Preconditions: validate subprocedure must exist
+; Registers changed: N/A
+;
+; ------------------------------------------------------------------
+	pushad
 	;display instructions
 	numberInstr:
 	mov		edx, OFFSET instrMsg
@@ -85,11 +119,21 @@ getUserData PROC
 	call	validate
 	
 	;data is valid, end procedure
+	popad
 	ret
 
 getUserData ENDP
 
-validate	PROC
+; ------------------------------------------------------------------
+validate PROC
+; 
+; Description: validates integer is between LOWER_BOUND and UPPER_BOUND
+; Receives: EAX
+; Returns: N/A
+; Preconditions: must have integer in EAX, getUserData must exist
+; Registers changed: N/A
+;
+; ------------------------------------------------------------------
 	;if user number is lower than lower bound
 	cmp		eax, LOWER_BOUND
 	jl		invalid
@@ -112,8 +156,16 @@ validate	PROC
 		
 validate	ENDP
 
-;check if number in compNum is composite, if true compBool = 1
+; ------------------------------------------------------------------
 isComposite PROC
+; 
+; Description: checks if number in compNum is a composite number
+; Receives: compNum
+; Returns: compBool, 1 for true, 0 for false
+; Preconditions: compNum must have an unsigned integer
+; Registers changed: N/A
+;
+; ------------------------------------------------------------------
 	;save registers
 	pushad
 
@@ -189,7 +241,16 @@ isComposite PROC
 
 isComposite ENDP
 
+; ------------------------------------------------------------------
 showComposites PROC
+; 
+; Description: Prints out the first Nth composite numbers, N = userNum
+; Receives: userNum
+; Returns: N/A
+; Preconditions: must have a number in userNum, isComposite must exist
+; Registers changed: N/A
+;
+; ------------------------------------------------------------------
 	;save registers
 	pushad
 
@@ -238,6 +299,7 @@ showComposites PROC
 		;restart loop, decrement ecx
 		loop	compLoop
 
+	call	CrLf
 	;return registers
 	popad
 	ret
@@ -245,6 +307,29 @@ showComposites PROC
 
 showComposites ENDP
 
+; ------------------------------------------------------------------
+farewell PROC
+; 
+; Description: prints farewell message to screen
+; Receives: N/A
+; Returns: N/A
+; Preconditions: N/A
+; Registers changed: N/A
+;
+; ------------------------------------------------------------------
+	pushad
+
+	;print farewell message
+	mov		edx, OFFSET farewellMsg
+	call	WriteString
+	call	CrLf
+
+	;return
+	popad
+	ret
+
+
+farewell ENDP
 
 END main
 
