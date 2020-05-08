@@ -126,3 +126,13 @@ Program3/Project.sln
 Program3/Project.v12.suo
 Program3/Project.vcxproj
 Program3/StructExample.asm
+*.exe
+*.log
+*.opendb
+Program4/.vs/Project/v16/.suo
+Program4/Project.vcxproj
+Program4/Project.v12.suo
+Program4/Project.sln
+Program4/Project.sdf
+Program4/Project.lst
+Program4/StructExample.asm
