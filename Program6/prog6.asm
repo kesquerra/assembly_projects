@@ -66,7 +66,7 @@ main PROC
 	;call	fillArray
 
 	push	OFFSET numString
-	push	312
+	push	+312
 	push	OFFSET numLength
 	call	writeVal
 
@@ -269,12 +269,15 @@ writeVal PROC
 		pop		eax
 		neg		eax
 		push	eax
-		jmp		stringLoop
+		jmp		startNum
 
 	positive:
 		mov		eax, 43
 		stosb
 		
+	startNum:
+		add		edi, [esi]
+		dec		edi
 
 	stringLoop:
 		pop		eax
@@ -284,6 +287,7 @@ writeVal PROC
 		push	eax
 		add		edx, 48
 		mov		eax, edx
+		std
 		stosb
 		loop	stringLoop
 
@@ -291,9 +295,6 @@ writeVal PROC
 		
 
 	displayString	[ebp+16]
-
-
-
 
 	pop		ebp
 	ret		12
