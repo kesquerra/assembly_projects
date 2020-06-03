@@ -26,50 +26,31 @@ goodbye		BYTE	"Goodbye, ",0
 
 .code
 main PROC
-
-;Introduce programmer
-	mov		edx, OFFSET intro_1
-	call	WriteString
-	call	CrLf
-
-;Get username
-	mov		edx, OFFSET	prompt_1
-	call	WriteString
-	mov		edx, OFFSET userName
-	mov		ecx, 32
-	call	ReadString
-
-;Get user age
-	mov		edx, OFFSET prompt_2
-	call	WriteString
-	call	ReadInt
-	mov		userAge, eax
-
-;Calculate user dog years
-	mov		eax, userAge
-	mov		ebx, DOG_FACTOR
-	mul		ebx
-	mov		dogAge, eax
-
-;Report result
-	mov		edx, OFFSET result_1
-	call	WriteString
-	mov		eax, dogAge
-	call	WriteDec
-	mov		edx, OFFSET result_2
-	call	WriteString
-	call	CrLf
-
-;Say goodbye
-	mov		edx, OFFSET goodbye
-	call	WriteString
-	mov		edx, OFFSET userName
-	call	WriteString
-	call	CrLf
-
-;Exit program
-	exit	; exit to operating system
-
+   push 3
+   push 13
+   call rcrsn
+   exit
 main ENDP
+
+rcrsn PROC
+   push ebp
+   mov ebp,esp
+   mov eax,[ebp + 12]
+   mov ebx,[ebp + 8]
+   cmp eax,ebx
+   jl recurse
+   jmp quit
+recurse:
+   inc eax
+   push eax
+   push ebx
+   call rcrsn
+   mov eax,[ebp + 12]
+   call WriteDec
+   ;Space 2
+quit:
+   pop ebp
+   ret 8
+rcrsn ENDP
 
 END main
