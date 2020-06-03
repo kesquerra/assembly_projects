@@ -1,13 +1,14 @@
-TITLE Sorting and Counting Random Integers	(prog5.asm)
+TITLE Designing Low-Level I/O Procedures	(prog6.asm)
 
 ; Author: Kyle Esquerra
-; Last Modified: 05/18/2020
+; Last Modified: 06/03/2020
 ; OSU email address: esquerrk@oregonstate.edu
 ; Course number/section: C400_S2020
-; Project Number: 5                Due Date: 05/24/2020
-; Description:	Creates an array of random integers,
-;	finds the median, the instances of each integer, 
-;	and sorts the array from the instance counts.
+; Project Number: 6                Due Date: 06/07/2020
+; Description:	Displays instructions for inputting 10 signed
+; decimal integers, reads integers as strings, converts them to
+; decimal, stores them in an array, computes sum and average of
+; values in array, prints values to console as strings
 
 INCLUDE Irvine32.inc
 
