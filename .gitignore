@@ -4,8 +4,6 @@
 *.obj
 *.txt
 *.pdb
-Demo1
-Template
 Template/StructExample.asm
 Template/Release/Project.vcxproj.FileListAbsolute.txt
 Template/Release/Project.tlog/unsuccessfulbuild
